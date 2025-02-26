@@ -1,0 +1,54 @@
+name: 'my_dynamic_project'
+version: '1.0.0'
+config-version: 2
+
+# This setting configures which "profile" dbt uses for this project.
+profile: 'my_dynamic_project'
+
+# These configurations specify where dbt should look for different types of files.
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"  # directory which will store compiled SQL files
+clean-targets:         # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
+
+# Database configuration
+vars:
+  target_database: "SALES_DB"
+
+# Configuring models
+# Configuring models
+models:
+  my_dynamic_project:
+    +database: "{{ var('target_database', 'SALES_DB') }}"
+    # Config indicated by folder
+    staging:
+      +schema: "STAGE"
+      +materialized: view
+    marts:
+      +schema: "ANALYTICS"
+      +materialized: table
+      core:
+        # Define configs specific to daily_sales
+        daily_sales:
+          +materialized: dynamic_table
+          +target_lag: '1 hour'
+          +snowflake_warehouse: 'dbt_wh_xs'
+          +refresh_mode: 'INCREMENTAL'
+          +initialize: 'ON_CREATE'
+          +on_configuration_change: 'apply'
+      integrations:
+        customer_360_view:
+          +database: 'ENTERPRISE_DW'  # Cross-domain data goes in enterprise DW
+          +materialized: dynamic_table
+          +target_lag: '1 hour'
+          +snowflake_warehouse: 'dbt_wh_xs'
+          +refresh_mode: 'INCREMENTAL'
+          +initialize: 'ON_CREATE'
+          +on_configuration_change: 'apply'

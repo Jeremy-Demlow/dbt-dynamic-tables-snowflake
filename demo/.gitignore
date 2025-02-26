@@ -1,0 +1,37 @@
+# dbt specific
+target/
+dbt_packages/
+logs/
+.user.yml
+
+# Environment specific files
+profiles.yml
+
+# Python and development environment
+.env
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~

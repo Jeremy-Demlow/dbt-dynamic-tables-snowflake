@@ -1,0 +1,83 @@
+version: 2
+
+sources:
+  - name: raw_data
+    database: SALES_DB
+    schema: RAW
+    tables:
+      - name: SRC_ORDERS
+        description: Raw orders data from our e-commerce platform
+        columns:
+          - name: order_id
+            description: Primary key for orders
+            tests:
+              - unique
+              - not_null
+          - name: customer_id
+            description: Foreign key to customers
+          - name: order_date
+            description: Date when the order was placed
+          - name: order_status
+            description: Current status of the order
+          - name: order_total
+            description: Total amount of the order in USD
+          - name: region_id
+            description: Region where the order was placed
+      
+      - name: SRC_REGIONS
+        description: Reference data for regions
+        columns:
+          - name: region_id
+            description: Primary key for regions
+            tests:
+              - unique
+              - not_null
+          - name: region_name
+            description: Name of the region
+          - name: country
+            description: Country where the region is located
+
+
+  - name: marketing_data
+    database: MARKETING_DB
+    schema: RAW
+    tables:
+      - name: SRC_MARKETING_EVENTS
+        description: Marketing events data
+        columns:
+          - name: event_id
+            description: Unique identifier for each marketing event
+            tests:
+              - unique
+              - not_null
+          - name: customer_id
+            description: Foreign key to customers
+          - name: event_date
+            description: Date when the marketing event occurred
+          - name: campaign_id
+            description: ID of the marketing campaign
+          - name: channel
+            description: Marketing channel (Email, Social, etc.)
+          - name: event_type
+            description: Type of marketing event
+          - name: revenue_impact
+            description: Estimated revenue impact of the event
+      
+      - name: SRC_CAMPAIGNS
+        description: Marketing campaigns reference data
+        columns:
+          - name: campaign_id
+            description: Unique identifier for each campaign
+            tests:
+              - unique
+              - not_null
+          - name: campaign_name
+            description: Name of the campaign
+          - name: start_date
+            description: Campaign start date
+          - name: end_date
+            description: Campaign end date
+          - name: budget
+            description: Campaign budget
+          - name: target_audience
+            description: Target audience for the campaign

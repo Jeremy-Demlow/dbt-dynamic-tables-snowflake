@@ -1,0 +1,56 @@
+version: 2
+
+models:
+  - name: stg_orders
+    description: Cleaned version of raw orders data
+    columns:
+      - name: order_id
+        description: Unique identifier for each order
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: Foreign key to the customers table
+        tests:
+          - not_null
+      - name: order_date
+        description: The date when the order was placed
+        tests:
+          - not_null
+      - name: order_status
+        description: Current status of the order (COMPLETED, RETURNED, PROCESSING, CANCELLED)
+      - name: order_total
+        description: Total amount of the order in USD
+      - name: region_id
+        description: Region where the order was placed
+      - name: dbt_updated_at
+        description: Timestamp when this record was last updated by dbt
+      - name: dbt_job_id
+        description: The unique ID of the dbt job that created this record
+
+  - name: stg_marketing_events
+    description: Cleaned version of raw marketing events data
+    columns:
+      - name: event_id
+        description: Unique identifier for each marketing event
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: Foreign key to customers
+        tests:
+          - not_null
+      - name: event_date
+        description: The date when the marketing event occurred
+        tests:
+          - not_null
+      - name: campaign_id
+        description: ID of the marketing campaign
+      - name: channel
+        description: Marketing channel (Email, Social, etc.)
+      - name: event_type
+        description: Type of marketing event
+      - name: revenue_impact
+        description: Estimated revenue impact of the event
+      - name: dbt_job_id
+        description: The unique ID of the dbt job that created this record

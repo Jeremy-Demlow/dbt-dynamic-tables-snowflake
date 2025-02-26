@@ -1,0 +1,82 @@
+version: 2
+
+models:
+  - name: daily_sales
+    description: >
+      Daily sales aggregated by region and country. 
+      This is implemented as a Snowflake dynamic table that refreshes every hour.
+    config:
+      materialized: dynamic_table
+      on_configuration_change: apply
+      target_lag: '1 hour'
+      snowflake_warehouse: dbt_wh_xs
+      refresh_mode: INCREMENTAL
+      initialize: ON_CREATE
+    columns:
+      - name: order_date
+        description: The date of the orders
+        tests:
+          - not_null
+      - name: region_name
+        description: Name of the region where orders were placed
+        tests:
+          - not_null
+      - name: country
+        description: Country where orders were placed
+        tests:
+          - not_null
+      - name: order_count
+        description: Number of orders for this date and region
+      - name: customer_count
+        description: Number of unique customers who placed orders for this date and region
+      - name: total_sales
+        description: Total sales amount for this date and region in USD
+      - name: avg_order_value
+        description: Average order value for this date and region in USD
+      - name: year
+        description: Year extracted from order_date
+      - name: month
+        description: Month extracted from order_date
+      - name: day
+        description: Day extracted from order_date
+
+  - name: daily_customer_sales
+    description: >
+      Daily sales aggregated by customer, region, and country. 
+      This is implemented as a Snowflake dynamic table that refreshes every hour.
+    config:
+      materialized: dynamic_table
+      on_configuration_change: apply
+      target_lag: '1 hour'
+      snowflake_warehouse: dbt_wh_xs
+      refresh_mode: INCREMENTAL
+      initialize: ON_CREATE
+    columns:
+      - name: customer_id
+        description: Unique identifier for the customer
+        tests:
+          - not_null
+      - name: order_date
+        description: The date of the orders
+        tests:
+          - not_null
+      - name: region_name
+        description: Name of the region where the customer placed orders
+        tests:
+          - not_null
+      - name: country
+        description: Country where the customer placed orders
+        tests:
+          - not_null
+      - name: order_count
+        description: Number of orders placed by the customer on this date
+      - name: total_sales
+        description: Total sales amount from the customer on this date in USD
+      - name: avg_order_value
+        description: Average order value for the customer on this date in USD
+      - name: year
+        description: Year extracted from order_date
+      - name: month
+        description: Month extracted from order_date
+      - name: day
+        description: Day extracted from order_date
