@@ -1,13 +1,4 @@
-{{
-    config(
-        materialized='dynamic_table',
-        target_lag='1 hour',
-        snowflake_warehouse='dbt_wh_xs',
-        refresh_mode='INCREMENTAL',
-        initialize='ON_CREATE',
-        on_configuration_change='apply'
-    )
-}}
+{{ dynamic_table_config() }}
 
 with orders as (
     select * from {{ ref('stg_orders') }}

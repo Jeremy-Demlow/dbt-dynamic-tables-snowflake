@@ -5,13 +5,6 @@ models:
     description: >
       Daily sales aggregated by region and country. 
       This is implemented as a Snowflake dynamic table that refreshes every hour.
-    config:
-      materialized: dynamic_table
-      on_configuration_change: apply
-      target_lag: '1 hour'
-      snowflake_warehouse: dbt_wh_xs
-      refresh_mode: INCREMENTAL
-      initialize: ON_CREATE
     columns:
       - name: order_date
         description: The date of the orders
@@ -44,13 +37,6 @@ models:
     description: >
       Daily sales aggregated by customer, region, and country. 
       This is implemented as a Snowflake dynamic table that refreshes every hour.
-    config:
-      materialized: dynamic_table
-      on_configuration_change: apply
-      target_lag: '1 hour'
-      snowflake_warehouse: dbt_wh_xs
-      refresh_mode: INCREMENTAL
-      initialize: ON_CREATE
     columns:
       - name: customer_id
         description: Unique identifier for the customer

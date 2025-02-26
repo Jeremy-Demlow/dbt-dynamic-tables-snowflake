@@ -1,2 +1,2 @@
-# Create the initial test data
-dbt run-operation generate_test_orders --args '{days_back: 30, orders_per_day: 100, drop_existing: true}'
+dbt run-operation generate_order_data --args '{days_back: 30, orders_per_day: 100, drop_existing: true}'
+dbt run-operation generate_marketing_data --args '{days_back: 30, events_per_day: 100, drop_existing: true}'

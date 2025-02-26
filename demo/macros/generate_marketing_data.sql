@@ -6,6 +6,7 @@
     -- Create database first
     {% set create_db_query %}
         create database if not exists {{ target_database }};
+        create database if not exists "ENTERPRISE_DW";
     {% endset %}
     {% do run_query(create_db_query) %}
     {{ log("Created database " ~ target_database, info=true) }}

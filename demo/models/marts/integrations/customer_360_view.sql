@@ -1,13 +1,8 @@
-{{
-    config(
-        materialized='dynamic_table',
-        target_lag='1 hour',
-        snowflake_warehouse='compute_wh',
-        refresh_mode='AUTO',
-        initialize='ON_CREATE',
-        on_configuration_change='apply'
-    )
-}}
+{{ dynamic_table_config(
+    target_lag='1 hour',
+    snowflake_warehouse='dbt_wh_xs',
+    refresh_mode='AUTO'
+) }}
 
 with sales as (
     select
