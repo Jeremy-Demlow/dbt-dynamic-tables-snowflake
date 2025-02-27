@@ -126,6 +126,13 @@ from daily_customer_activity
 1. Clone this repository
 2. Set up your connection profile:
 
+```bash
+cd demo
+conda create --name dbt --override-channels -c https://repo.anaconda.com/pkgs/snowflake python=3.11 --y; conda activate dbt;
+pip install -r requirements.txt
+dbt init
+```
+
 ```yaml
 # profiles.yml
 my_dynamic_project:
@@ -138,8 +145,8 @@ my_dynamic_project:
       password: [your-password]
       role: [your-role]
       database: SALES_DB
-      warehouse: compute_wh
-      schema: dbt_dev
+      warehouse: dbt_wh_xs
+      schema: sales
       threads: 4
       client_session_keep_alive: True
 ```
@@ -164,7 +171,7 @@ dbt build
 
 1. Generate initial test data:
 ```bash
-./scripts/create_data.sh
+bash ./scripts/create_data.sh
 ```
 
 2. Build the models:
@@ -174,8 +181,20 @@ dbt build
 
 3. Add incremental data:
 ```bash
-./scripts/add_incremental_data.sh
+bash ./scripts/add_incremental_data.sh
 ```
+
+
+All the commands
+```bash 
+bash ./scripts/create_data.sh
+dbt build
+bash ./scripts/add_incremental_data.sh
+```
+
+dbt build --select daily_sales daily_customer_sales customer_360_view --full-refresh
+
+dbt build --select customer_360_view --full-refresh
 ## Useful Operations
 
 | Command | Description |
